@@ -35,7 +35,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.input.touch.FlxTouch;
+import flixel.input.touch.FlxTouchManager;
 
 import lime.app.Application;
 import openfl.Assets;
@@ -314,7 +314,7 @@ class TitleState extends MusicBeatState
                     add(gtree);
                     remove(tree2);
 
-                    FlxTouch.add(gtree, FlxTouch.BEGAN, function onTouchBegin(gtree:FlxObject, touch:FlxTouch, id:Int){
+                    FlxTouchManager.add(gtree, FlxTouch.BEGAN, function onTouchBegin(gtree:FlxObject, touch:FlxTouch, id:Int){
                         var challenge = new Lock.NewChallenger(FlxG.camera);
                         add(challenge);
                         challenge.challenge('red-lake', 0, function() {}, true, false);
@@ -338,7 +338,7 @@ class TitleState extends MusicBeatState
 			foxy.y += 750;
 		add(foxy);
 		if(MainMenuState.mainweekbeat) {
-			FlxTouch.add(foxy, FlxTouch.BEGAN, function onTouchBegin(foxy:FlxObject, touch:FlxTouch, id:Int){
+			FlxTouchManager.add(foxy, FlxTouch.BEGAN, function onTouchBegin(foxy:FlxObject, touch:FlxTouch, id:Int){
 
 			foxyclick++;
 			if(foxyclick == 6) 
@@ -361,7 +361,7 @@ class TitleState extends MusicBeatState
 			fred.y += 750;
 		add(fred);
 		if(MainMenuState.mainweekbeat) {//u beat main week
-                    FlxTouch.add(fred, FlxTouch.BEGAN, function onTouchBegin(fred:FlxObject, touch:FlxTouch, id:Int){
+                    FlxTouchManager.add(fred, FlxTouch.BEGAN, function onTouchBegin(fred:FlxObject, touch:FlxTouch, id:Int){
                         fredclick++;
                         if(fredclick == 83) {
                            var challenge = new Lock.NewChallenger(FlxG.camera);
@@ -389,7 +389,7 @@ class TitleState extends MusicBeatState
 		if(!closedState)
 			titleText.x += 800;
 		add(titleText);
-		FlxTouch.add(titleText, FlxTouch.BEGAN, function onTouchBegin(titleText:FlxObject, touch:FlxTouch, id:Int){
+		FlxTouchManager.add(titleText, FlxTouch.BEGAN, function onTouchBegin(titleText:FlxObject, touch:FlxTouch, id:Int){
                 titleText.color = FlxColor.WHITE;
 
                 FlxG.camera.flash(ClientPrefs.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
