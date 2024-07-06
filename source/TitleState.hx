@@ -35,10 +35,10 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import flixel.input.touch.FlxTouchManager;
-
 import lime.app.Application;
 import openfl.Assets;
+import flixel.input.mouse.FlxMouseEventManager;
+import flixel.input.mouse.FlxMouseEvent;
 
 using StringTools;
 typedef TitleData =
@@ -311,16 +311,16 @@ class TitleState extends MusicBeatState
 		gtree.y += 10;
 		gtree.x += 850;
 		if(MainMenuState.mainweekbeat && !FreeplayState.redlakeUnlocked) {// u beat the main week but havent played omc yet
-                    add(gtree);
-                    remove(tree2);
+			add(gtree);
+			remove(tree2);
 
-                    FlxTouchManager.add(gtree, FlxTouch.BEGAN, function onTouchBegin(gtree:FlxObject, touch:FlxTouch, id:Int){
-                        var challenge = new Lock.NewChallenger(FlxG.camera);
-                        add(challenge);
-                        challenge.challenge('red-lake', 0, function() {}, true, false);
-                    });
-               }
-
+			FlxMouseEvent.add(gtree, function onMouseDown(fred:FlxSprite){
+				var challenge = new Lock.NewChallenger(FlxG.camera);
+				add(challenge);
+				challenge.challenge('red-lake', 0, function() {}, true, false);
+			}, 
+			null);
+		}
 
 		var title:FlxSprite = new FlxSprite(281.55, -30).loadGraphic(Paths.image('title/title'));
 		title.scale.set(0.7, 0.7);
@@ -338,8 +338,7 @@ class TitleState extends MusicBeatState
 			foxy.y += 750;
 		add(foxy);
 		if(MainMenuState.mainweekbeat) {
-			FlxTouchManager.add(foxy, FlxTouch.BEGAN, function onTouchBegin(foxy:FlxObject, touch:FlxTouch, id:Int){
-
+			FlxMouseEvent.add(foxy, function onMouseDown(foxy:FlxSprite){
 			foxyclick++;
 			if(foxyclick == 6) 
 			{
@@ -361,16 +360,17 @@ class TitleState extends MusicBeatState
 			fred.y += 750;
 		add(fred);
 		if(MainMenuState.mainweekbeat) {//u beat main week
-                    FlxTouchManager.add(fred, FlxTouch.BEGAN, function onTouchBegin(fred:FlxObject, touch:FlxTouch, id:Int){
-                        fredclick++;
-                        if(fredclick == 83) {
-                           var challenge = new Lock.NewChallenger(FlxG.camera);
-                           add(challenge);
-                           challenge.challenge('fred-bars', 0, function() {}, true, false);
-                        }
-                   });
-               }
-
+			FlxMouseEvent.add(fred, function onMouseDown(fred:FlxSprite){
+			fredclick++;
+			if(fredclick == 83) {
+				var challenge = new Lock.NewChallenger(FlxG.camera);
+				add(challenge);
+				challenge.challenge('fred-bars', 0, function() {}, true, false);
+			}
+			}, 
+			null);
+		}
+		
 		var crew:FlxSprite = new FlxSprite(-32, 0).loadGraphic(Paths.image('title/crew'));
 		crew.scale.set(0.7, 0.7);
 		crew.updateHitbox();
@@ -389,21 +389,21 @@ class TitleState extends MusicBeatState
 		if(!closedState)
 			titleText.x += 800;
 		add(titleText);
-		FlxTouchManager.add(titleText, FlxTouch.BEGAN, function onTouchBegin(titleText:FlxObject, touch:FlxTouch, id:Int){
-                titleText.color = FlxColor.WHITE;
+		FlxMouseEvent.add(titleText, function onMouseDown(titleText:FlxSprite){
+			titleText.color = FlxColor.WHITE;
 
-                FlxG.camera.flash(ClientPrefs.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
-                FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			FlxG.camera.flash(ClientPrefs.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
+			FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
 
-                transitioning = true;
+			transitioning = true;
 
-                new FlxTimer().start(1, function(tmr:FlxTimer)
-                {
-                    MusicBeatState.switchState(new MainMenuState());
-                    closedState = true;
-                });
-            });
-
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+			{
+				MusicBeatState.switchState(new MainMenuState());
+				closedState = true;
+			});
+		}, 
+		null);
 
 
 		if(!closedState) {
